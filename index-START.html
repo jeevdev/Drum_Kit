@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Drum Kit</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+  <div class="keys">
+    <div data-key="67" class="key">
+      <kbd>C</kbd>
+      <span class="sound">clap</span>
+    </div>
+    <div data-key="72" class="key">
+      <kbd>H</kbd>
+      <span class="sound">hi-hat</span>
+    </div>
+    <div data-key="75" class="key">
+      <kbd>K</kbd>
+      <span class="sound">kick</span>
+    </div>
+    <div data-key="79" class="key">
+      <kbd>O</kbd>
+      <span class="sound">openhat</span>
+    </div>
+    <div data-key="66" class="key">
+      <kbd>B</kbd>
+      <span class="sound">boom</span>
+    </div>
+    <div data-key="82" class="key">
+      <kbd>R</kbd>
+      <span class="sound">ride</span>
+    </div>
+    <div data-key="83" class="key">
+      <kbd>S</kbd>
+      <span class="sound">snare</span>
+    </div>
+    <div data-key="84" class="key">
+      <kbd>T</kbd>
+      <span class="sound">tom</span>
+    </div>
+    <div data-key="80" class="key">
+      <kbd>P</kbd>
+      <span class="sound">pip</span>
+    </div>
+  </div>
+
+  <audio data-key="67" src="sounds/clap.wav"></audio>
+  <audio data-key="72" src="sounds/hihat.wav"></audio>
+  <audio data-key="75" src="sounds/kick.wav"></audio>
+  <audio data-key="79" src="sounds/openhat.wav"></audio>
+  <audio data-key="66" src="sounds/boom.wav"></audio>
+  <audio data-key="82" src="sounds/ride.wav"></audio>
+  <audio data-key="83" src="sounds/snare.wav"></audio>
+  <audio data-key="84" src="sounds/tom.wav"></audio>
+  <audio data-key="80" src="sounds/tink.wav"></audio>
+
+<script>
+  function playSound(e) {
+    const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+    if (!key) return; //Stop function if Key pressed doesn't map to a DIV
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+
+    audio .currentTime = 0; //Rewind to the start every time Key is pressed
+    audio.play();
+    key.classList.add("playing");
+  };
+
+  function reverseTransition(e) {
+    //Don't execute until Transform transition is found
+    if (e.propertyName !== "transform") return; 
+    this.classList.remove("playing");
+  };
+
+  const keys = document.querySelectorAll(".key");
+
+  window.addEventListener("keydown", playSound);
+  keys.forEach(key => key.addEventListener("transitionend", reverseTransition));
+</script>
+
+
+</body>
+</html>
